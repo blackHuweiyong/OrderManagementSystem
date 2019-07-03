@@ -10,11 +10,14 @@ import 'element-ui/lib/theme-chalk/index.css'
 Vue.config.productionTip = false
 
 Vue.prototype.$axios = axios
-// axios.defaults.baseURL = 'https://api.example.com';
 axios.defaults.headers.common['Authorization'] = 'Token '
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 Vue.use(ElementUI);
+
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title
+  next()
+})
 
 /* eslint-disable no-new */
 new Vue({

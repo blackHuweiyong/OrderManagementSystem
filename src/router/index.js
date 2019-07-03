@@ -9,7 +9,8 @@ export default new Router({
     {
       path: '/',
       name: 'OrderMain',
-      component: OrderMain
+      component: OrderMain,
+      meta: {title: '订单主页'}
     }
   ]
 })

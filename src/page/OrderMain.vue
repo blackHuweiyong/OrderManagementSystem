@@ -1,17 +1,83 @@
 <template>
-  <div>这是订单主页
-    <span>测试less</span>
-    <el-button type="primary">测试elemnet-ui</el-button>
-    <button @click="sendmessage">测试axios</button>
+  <div class="order-main">
+    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+      <el-menu-item index="1">一类订单</el-menu-item>
+      <el-menu-item index="2">二类订单</el-menu-item>
+    </el-menu>
+    <div class="order-header">
+      <div class="order-header-search">
+        <order-filter></order-filter>
+      </div>
+      <div class="order-header-export">
+        <el-button type="primary">导出</el-button>
+      </div>
+    </div>
+    <div class="order-list">
+      <el-table
+        :data="tableData"
+        border
+        style="width: 100%">
+        <el-table-column
+          prop="date"
+          label="日期"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          label="姓名"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="address"
+          label="地址">
+        </el-table-column>
+
+        <el-table-column
+          :show-overflow-tooltip="showTooltip"
+          label="详情"
+          align="center">
+          <template slot-scope="scope">
+            <el-button type="text" @click="toDetail()">查看详情</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <el-pagination
+        :page-size="20"
+        :pager-count="11"
+        layout="prev, pager, next, jumper, total"
+        :total="1000">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
 <script>
+import OrderFilter from '../components/OrderFilter'
+
 export default {
   name: 'OrderMain',
   data(){
     return{
-
+      showTooltip: true,
+      activeIndex:"1",
+      tableData: [{
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }, {
+        date: '2016-05-04',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1517 弄'
+      }, {
+        date: '2016-05-01',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1519 弄'
+      }, {
+        date: '2016-05-03',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1516 弄'
+      }]
     }
   },
   methods:{
@@ -27,19 +93,40 @@ export default {
       .catch(function (error) {
         console.log(error);
       }); 
+    },
+    toDetail(){
+      console.log('去详情页了');
+    },
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
     }
   },
+  components:{
+    OrderFilter
+  }
 }
 
 </script>
 <style lang="less" scoped>
-div {
-  background-color: #ccc;
-  span{
-    width: 100px;
-    height: 100px;
-    font-size: 50px;
-    background-color: red;
+.order-main {
+  width: 100%;
+  flex-grow: 1;
+  background-color: #fff;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  .order-header {
+    padding: 20px 20px 0 20px;
+    .order-header-search {
+      float: left;
+    }
+    .order-header-export {
+      float: right;
+    }
+  }
+  .order-list {
+    padding: 20px;
   }
 }
 </style>
