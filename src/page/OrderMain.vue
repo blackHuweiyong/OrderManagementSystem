@@ -43,10 +43,10 @@
       </el-table>
 
       <el-pagination
-        :page-size="20"
-        :pager-count="11"
+        :page-size="pageIndex"
+        :current-page="page"
         layout="prev, pager, next, jumper, total"
-        :total="1000">
+        :total="totalNum">
       </el-pagination>
     </div>
   </div>
@@ -54,13 +54,17 @@
 
 <script>
 import OrderFilter from '../components/OrderFilter'
+import paginationMixin from '../mixins/pagination-mixin'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
+
 
 export default {
   name: 'OrderMain',
+  mixins: [paginationMixin],
   data(){
     return{
       showTooltip: true,
-      activeIndex:"1",
+      activeIndex:this.totalNum,
       tableData: [{
         date: '2016-05-02',
         name: '王小虎',
@@ -80,6 +84,9 @@ export default {
       }]
     }
   },
+  created() {
+    this.GET_ORDER_LIST()
+  },
   methods:{
     sendmessage(){
       this.$axios.get('/user', {
@@ -92,10 +99,11 @@ export default {
       })
       .catch(function (error) {
         console.log(error);
-      }); 
+      });
     },
     toDetail(){
       console.log('去详情页了');
+      this.UPDATA_PAGE(Math.floor(Math.random() * 6))
     },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
