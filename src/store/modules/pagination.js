@@ -1,8 +1,8 @@
 const pagination = {
   state: {
-    page: null,
-    pageNum: null,
-    totalNum: null
+    page: Number,
+    pageNum: Number,
+    totalNum: Number
   },
   mutations: {
     UPDATA_PAGE: (state, data) => {
